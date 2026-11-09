@@ -6,6 +6,8 @@ Given a text, report the ten words that occur most often in it, together with ho
 
 ## Interface
 
+The function lives in `top_words.py` (Python 3):
+
 ```python
 def top_words(text: str) -> list[tuple[str, int]]: ...
 ```
@@ -49,15 +51,16 @@ Inputs and outputs are Python literals.
 | 6 | `"don't don’t 'quoted'"` | `[("don't", 2), ('quoted', 1)]` | apostrophes |
 | 7 | `"well-known"` | `[('known', 1), ('well', 1)]` | hyphen splits |
 | 8 | `"abc123def x_y"` | `[('abc', 1), ('def', 1), ('x', 1), ('y', 1)]` | digits and `_` split |
-| 9 | `"é é"` | `[('é', 2)]` | NFC joins `e` + accent |
+| 9 | `"é é"` | `[('é', 2)]` | NFC joins `e` + U+0301 into U+00E9 |
 | 10 | `"a b c d e f g h i j k"` | `[('a', 1), ('b', 1), ('c', 1), ('d', 1), ('e', 1), ('f', 1), ('g', 1), ('h', 1), ('i', 1), ('j', 1)]` | limit of 10 |
 | 11 | `"k k a b c d e f g h i j"` | `[('k', 2), ('a', 1), ('b', 1), ('c', 1), ('d', 1), ('e', 1), ('f', 1), ('g', 1), ('h', 1), ('i', 1)]` | count beats alphabet |
-| 16 | `"ҚАЗАҚ қазақ Қазақ"` | `[('қазақ', 3)]` | Kazakh upper/lower case |
-| 17 | `"Straße STRASSE"` | `[('strasse', 1), ('straße', 1)]` | `.lower()`, not `.casefold()` |
-| 12 | `""` | `[]` | empty text |
-| 13 | `"123 ... !!!"` | `[]` | no words |
-| 14 | `None` | raises `TypeError` | wrong type |
-| 15 | `b"cat"` | raises `TypeError` | bytes are not text |
+| 12 | `"ҚАЗАҚ қазақ Қазақ"` | `[('қазақ', 3)]` | Kazakh upper/lower case |
+| 13 | `"Straße STRASSE"` | `[('strasse', 1), ('straße', 1)]` | `.lower()`, not `.casefold()` |
+| 14 | `"aʼb a'b"` | `[("a'b", 1), ('aʼb', 1)]` | U+02BC is a letter (`Lm`), not an apostrophe |
+| 15 | `""` | `[]` | empty text |
+| 16 | `"123 ... !!!"` | `[]` | no words |
+| 17 | `None` | raises `TypeError` | wrong type |
+| 18 | `b"cat"` | raises `TypeError` | bytes are not text |
 
 ## Not covered
 
